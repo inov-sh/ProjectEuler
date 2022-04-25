@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+
+vector<bool> isprime;
+vector<int> m;
+ll ans = 0;
+void pre(){
+    isprime.assign(1000005, 1);
+    m.assign(1000000, 0);
+    isprime[0]=isprime[1]=0;
+    for(int i=2; i<1000005; i++){
+        for(int j=2*i; j<1000005; j+=i) isprime[j]=0;
+    }
+}
+
+void fun(int sum, int prv2, int idx, int f){
+    //idx:0-12
+    if(isprime[sum] && f){
+        m[sum]++;
+    }
+    if(idx>12) return;
+    
+    fun(sum, prv2, idx+1, 0);
+    
+    for(int i=prv2-1; i>=0; i--){
+        ll tmp = pow(2,i)*pow(3, idx)+sum;
+        if(tmp<1e6) fun((int)tmp, i, idx+1, 1);
+    }
+}
+
+int main(){
+    //3^0,3^1,....,3^12
+    //2^0,2^1,........,2^19
+    pre();
+    fun(0, 20, 0, 1);
+    
+    for(int i=1; i<1000000; i++){
+        if(m[i]==1) ans+=i;
+    }
+    
+    cout<<ans<<'\n';
+    
+}
