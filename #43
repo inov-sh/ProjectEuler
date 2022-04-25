@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+
+int main(){
+    vector<string> v;
+    
+    for(int i=17; i<1000; i+=17){
+        string tmp = to_string(i);
+        if(i<100) tmp = '0'+tmp;
+        if(tmp[0]!=tmp[1] && tmp[1]!=tmp[2] && tmp[0]!=tmp[2]) v.push_back(tmp);
+    }
+    
+    vector<int> p = {13,11,7,5,3,2,1};
+    
+    for(auto x:p){
+        vector<string> v1;
+        for(auto h:v){
+            for(int i=0; i<=9; i++){
+                int f=1;
+                for(auto h1:h){
+                    if(h1==(char)('0'+i)){
+                        f=0;
+                        break;
+                    }
+                }
+                
+                if(f){
+                    int tmp = 100*i+10*(int)(h[0]-'0')+(int)(h[1]-'0');
+                    if(tmp%x==0){
+                        v1.push_back(to_string(i)+h);
+                    }
+                }
+            }
+        }
+        v = v1;
+    }
+    
+    ll sum = 0;
+    
+    for(auto h:v){
+        cout<<h<<'\n';
+        for(ll i=0; i<=9; i++){
+            sum += pow(10,9-i)*(ll)(h[i]-'0');
+        }
+    }
+    
+    cout<<sum<<'\n';
+    
+}
